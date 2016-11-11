@@ -43,7 +43,7 @@ public class PostController extends AbstractController {
 		
 		//if valid, create new posts (need to use getUserBySession for author)
 		Post post = new Post(title, body, getUserFromSession(request.getSession()));
-		
+		postDao.save(post); //saves post to database
 		
 		
 		//if not valid, send back to form with error message
@@ -64,6 +64,9 @@ public class PostController extends AbstractController {
 		Post post = postDao.findByUid(uid);
 		
 		//validate the user:  check if user == null, post == null, user is same as post author
+		if(user == null || post == null || !user.getUsername().equals(username)){
+			return "notfound";
+		}
 		
 		//pass the post into the template
 		model.addAttribute("post", post);
