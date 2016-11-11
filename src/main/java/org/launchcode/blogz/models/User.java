@@ -21,8 +21,10 @@ public class User extends AbstractEntity {
 	private String pwHash;
 	private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 	
+	//all the posts by a given user
 	private List<Post> posts;
 	
+	//no arg construtor so Hibernate will work
 	public User() {}
 	
 	public User(String username, String password) {
@@ -64,16 +66,20 @@ public class User extends AbstractEntity {
 		this.username = username;
 	}
 	
+	//the given password is correct for the user
+	//call this by using user.isMatchingPassword(...)
 	public boolean isMatchingPassword(String password) {
 		return encoder.matches(password, pwHash);
 	}
 	
+	///Checkst that password meets minimum standards
 	public static boolean isValidPassword(String password) {
 		Pattern validUsernamePattern = Pattern.compile("(\\S){6,20}");
 		Matcher matcher = validUsernamePattern.matcher(password);
 		return matcher.matches();
 	}
 	
+	//Checks that username meets minimum standards
 	public static boolean isValidUsername(String username) {
 		Pattern validUsernamePattern = Pattern.compile("[a-zA-Z][a-zA-Z0-9_-]{4,11}");
 		Matcher matcher = validUsernamePattern.matcher(username);

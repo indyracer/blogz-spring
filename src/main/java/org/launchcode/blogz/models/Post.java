@@ -68,7 +68,7 @@ public class Post extends AbstractEntity {
 	}
 	
 	@NotNull
-	@OrderColumn
+	@OrderColumn //will order list by date
 	@Column(name = "created")
 	public Date getCreated() {
 		return created;
