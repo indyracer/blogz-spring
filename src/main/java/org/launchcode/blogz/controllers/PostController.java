@@ -26,25 +26,47 @@ public class PostController extends AbstractController {
 		// TODO - implement newPost
 		
 		//get requests parameters
+		String title = request.getParameter("title");
+		String body = request.getParameter("body");
+		
 		
 		//validate parameters
+		if(title == ""){
+			model.addAttribute("error", "Please include a title");
+			return "/blog/newpost";
+		}
 		
-		//if valid, create new posts
+		if(body == ""){
+			model.addAttribute("error", "Empty post, please add text");
+			return "/blog/newpost";
+		}
+		
+		//if valid, create new posts (need to use getUserBySession for author)
+		Post post = new Post(title, body, getUserFromSession(request.getSession()));
+		
+		
 		
 		//if not valid, send back to form with error message
 		
 		return "redirect:index"; // TODO - this redirect should go to the new post's page  		
 	}
 	
-	//handles reqeusts like "/blob/bob/5"
+	//handles requests like "/blob/bob/5"
 	@RequestMapping(value = "/blog/{username}/{uid}", method = RequestMethod.GET)
 	public String singlePost(@PathVariable String username, @PathVariable int uid, Model model) {
 		
 		// TODO - implement singlePost
+		//find the user
+		User user = userDao.findByUsername(username);
 		
+				
 		//get given post
+		Post post = postDao.findByUid(uid);
+		
+		//validate the user:  check if user == null, post == null, user is same as post author
 		
 		//pass the post into the template
+		model.addAttribute("post", post);
 		
 		return "post";
 	}
@@ -55,9 +77,17 @@ public class PostController extends AbstractController {
 		// TODO - implement userPosts
 		
 		//get all the user's posts
+		//findbyUserName first, then put that into findByAuthor
+		User user = userDao.findByUsername(username);
+		if(user == null){
+			return "notfound";//create this template page
+		}
+		
+		List<Post> posts = postDao.findByAuthor(user);
 		
 		//pass the post into the template
 		//use model.addAttribute("name", listOfPosts()) then iterate thru them in the template
+		model.addAttribute("posts", posts);
 		
 		return "blog";
 	}
