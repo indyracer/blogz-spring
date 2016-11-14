@@ -30,6 +30,8 @@ public class PostController extends AbstractController {
 		String body = request.getParameter("body");
 		
 		
+		
+		
 		//validate parameters
 		if(title == ""){
 			model.addAttribute("error", "Please include a title");
@@ -45,10 +47,18 @@ public class PostController extends AbstractController {
 		Post post = new Post(title, body, getUserFromSession(request.getSession()));
 		postDao.save(post); //saves post to database
 		
+		//get username from the new post
+		String username = post.getAuthor().getUsername();
+		//get the UID of the new post
+		int uid = post.getUid();
+		
+		
 		
 		//if not valid, send back to form with error message
+		//get the username to input into redirect
 		
-		return "redirect:post"; // TODO - this redirect should go to the new post's page  		
+		
+		return "redirect:/blog/" + username + "/" + uid; // TODO - this redirect should go to the new post's page  		
 	}
 	
 	//handles requests like "/blob/bob/5"
