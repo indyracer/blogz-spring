@@ -83,7 +83,7 @@ public class PostController extends AbstractController {
 		//findbyUserName first, then put that into findByAuthor
 		User user = userDao.findByUsername(username);
 		if(user == null){
-			return "notfound";//create this template page
+			return "notfound";
 		}
 		
 		List<Post> posts = postDao.findByAuthor(user);
