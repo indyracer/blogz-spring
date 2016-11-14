@@ -48,7 +48,7 @@ public class PostController extends AbstractController {
 		
 		//if not valid, send back to form with error message
 		
-		return "redirect:index"; // TODO - this redirect should go to the new post's page  		
+		return "redirect:post"; // TODO - this redirect should go to the new post's page  		
 	}
 	
 	//handles requests like "/blob/bob/5"
