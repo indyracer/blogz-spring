@@ -35,12 +35,12 @@ public class PostController extends AbstractController {
 		//validate parameters
 		if(title == ""){
 			model.addAttribute("error", "Please include a title");
-			return "/blog/newpost";
+			return "newpost";
 		}
 		
 		if(body == ""){
 			model.addAttribute("error", "Empty post, please add text");
-			return "/blog/newpost";
+			return "newpost";
 		}
 		
 		//if valid, create new posts (need to use getUserBySession for author)
